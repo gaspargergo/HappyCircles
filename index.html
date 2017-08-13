@@ -1,0 +1,79 @@
+<!doctype HTML>
+<html>
+
+<head>
+  <title>One lone little dot</title>
+
+  <style>
+    body{
+      margin: 0;
+      overflow: hidden;
+    }
+    a:hover{
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+  <a onClick="dieToggle()"><div id="container"><canvas id="canvas" height="800px" width="1500px"></canvas></div></a>
+
+</center>
+
+  <script>
+  var c=document.getElementById("canvas");
+  var ctx=c.getContext("2d");
+  ctx.clearRect(0, 0, c.width, c.height);
+  c.width = window.innerWidth;
+  c.height = window.innerHeight;
+  var coloumns = 10;
+  var rows = 6;
+  var xCoords = [];
+  var yCoords = [];
+  var die = false;
+
+  for(var i = 1; i < coloumns; i++){
+    xCoords.push(c.width/coloumns*i);
+  }
+  for(var i = 1; i < rows; i++){
+    yCoords.push(c.height/rows*i);
+  }
+  
+  function spawnCircles(){ //Ez lesz majd setIntervalozva
+    ctx.clearRect(0, 0, c.width, c.height);
+    if(die){
+    ctx.fillStyle = '#'+ Math.random().toString(16).slice(-6);
+    ctx.fillRect(0,0,c.width,c.height);
+    }
+    
+    for(var i = 0; i < xCoords.length;i++){
+      for(var k = 0; k < yCoords.length;k++){
+        ctx.fillStyle = '#'+ Math.random().toString(16).slice(-6);
+        var size = randomIntFromInterval(20,60);
+        ctx.beginPath();
+        ctx.arc(xCoords[i],yCoords[k],size,0,2*Math.PI);
+        ctx.fill();
+      }
+    }
+  }
+
+  function randomIntFromInterval(min,max)
+  {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
+
+  function dieToggle(){
+    if(!die){
+      die = true;
+    }
+    else{
+      die = false;
+    }
+  }
+
+  setInterval(spawnCircles,50);
+  </script>
+</body>
+
+</html>
